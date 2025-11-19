@@ -1,0 +1,51 @@
+# Environment specification for image reconstruction task
+#
+# Usage:
+#   conda env create -f environment.yml
+#   conda activate nint_env
+
+name: nint_env
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Python
+  - python=3.10
+  
+  # PyTorch and CUDA
+  - pytorch>=2.1
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=11.8
+  
+  # Scientific Computing
+  - numpy
+  - scipy
+  - scikit-image
+  - pillow
+  
+  # Deep Learning Utilities
+  - pyyaml
+  - tqdm
+  
+  # Configuration Management
+  - pip
+  
+  - pip:
+    # Core Dependencies
+    - hydra-core>=1.1
+    - omegaconf>=2.1
+    - easydict>=1.9
+    - einops>=0.6
+    - wandb>=0.13          # Optional: for experiment tracking
+    - lpips>=0.1           # Perceptual loss metric
+    - imageio>=2.9         # Image I/O
+
+# Notes:
+# - This environment is designed for GPU training (CUDA 11.8)
+# - Adjust pytorch::pytorch-cuda version if using different CUDA version
+# - For CPU-only training, remove pytorch-cuda and use pytorch::pytorch::*[build=py310]
+# - Some packages are pinned to ensure compatibility

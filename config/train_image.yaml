@@ -1,0 +1,80 @@
+TRAIN_CONFIGS:
+  out_dir: siren_sampling
+  lr: 1e-3
+  iterations: 5000
+  save_interval: 100
+  mt_save_interval: 100
+  gpu_devices: "1"  # "all" or comma-separated GPU indices like "0,1,2"
+  seed: 42
+  sampling_path: sampling_history.pkl
+  loss_path: loss_history.pkl
+  save_name: siren
+  no_io: 0
+
+EXP_CONFIGS:
+  strategy_type: nint     # Options: nint, evos, egra, expansive, lmc, random, full, int
+  scheduler_type: constant       # Added back for non-NINT strategies (EVOS, etc.)
+  mt_ratio: 0.2                  # Added back for non-NINT strategies
+  optimizer_type: adam
+  lr_scheduler_type: cosine # cosine, multistep or constant
+
+# NINT configuration - all NINT parameters consolidated here
+nint:
+  scheduler_type: constant                # Sampling ratio scheduler: constant, step, linear, cosine, reverse-cosine
+  mt_ratio: 0.2                       # Starting sampling ratio (0.0-1.0)
+  top_k: 1                            # Whether to use top-k sampling (1) or random (0)
+  nmt_profile_strategy: dense         # When to sample: dense, dense2, incremental, reverse-incremental
+
+NETWORK_CONFIGS:
+  lr: 1e-4
+  data_range: 0
+  coord_mode: 2
+  rff_std: 10
+
+DATASET_CONFIGS:
+  data_type: image
+  file_path: images/01.png     # Path to image (relative to project root)
+  color_mode: RGB              # RGB or L (grayscale)
+  img_size: null
+
+WANDB_CONFIGS:
+  use_wandb: 0              # Set to 1 to enable W&B logging (requires account)
+                            # Note: Update wandb_project and wandb_entity below with your own credentials
+  wandb_project: YOUR_PROJECT_NAME    # Replace with your W&B project name
+  wandb_entity: YOUR_USERNAME         # Replace with your W&B username/entity
+  group: nint_image_training
+  # Selectively enable/disable metrics to avoid unnecessary computation
+  # Set to 0 to disable logging and skip computation
+  log_loss: 1          # Always computed anyway
+  log_psnr: 1          # Requires full image evaluation
+  log_ssim: 1          # Requires full image evaluation
+  log_lpips: 0         # Requires LPIPS model evaluation (expensive)
+  log_time_metrics: 1  # Requires elapsed time tracking
+  # Image logging options (set to 1 to enable, 0 to disable)
+  log_images: 1        # Master switch for all image logging (I/O intensive)
+  log_gt_image: 1      # Log ground truth image (only at first step)
+  log_reconstruction: 1 # Log reconstructed image at save intervals
+  log_tinted: 1        # Log tinted image showing sampled points in red (overlay on original)
+  log_selected: 0      # Log selected points only (no background image)
+  log_ntk: 0           # Compute and log NTK matrix at intervals (expensive!)
+  ntk_log_interval: 500 # How often to compute NTK (every N steps)
+  image_log_time_interval: 10  # Log images every N seconds (0 to disable)
+
+# Local logging for plotting
+METRIC_LOGGING:
+  save_local: 1        # Save metrics_history.pkl locally
+  log_psnr: 1          # Record PSNR locally
+  log_ssim: 1          # Record SSIM locally
+  log_lpips: 1         # Record LPIPS locally
+
+defaults:
+  - model_config: siren
+
+# hydra logging
+hydra:
+  run:
+    dir: outputs/${TRAIN_CONFIGS.out_dir}/hydra_configs/${now:%Y-%m-%d-%H-%M-%S}
+    
+  sweep:
+    dir: outputs/${TRAIN_CONFIGS.out_dir}/hydra_configs/${now:%Y-%m-%d-%H-%M-%S}/${hydra.job.name}
+    subdir: ${hydra.job.num}
