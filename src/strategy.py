@@ -1,10 +1,8 @@
 def strategy_factory(strategy_type):
     if strategy_type == "incremental":
         return incremental
-    elif strategy_type == "reverse-incremental":
-        return revIncremental
-    elif strategy_type == "exponential":
-        return exponential
+    elif strategy_type == "decremental":
+        return decremental
     elif strategy_type == "dense":
         return dense
     elif strategy_type == "dense2":
@@ -44,7 +42,7 @@ def incremental(step, max_steps, min_interval=1, max_interval=50, n_increments=5
             return False, increment_size
 
 
-def revIncremental(step, max_steps, min_interval=1, max_interval=50, n_increments=5):
+def decremental(step, max_steps, min_interval=1, max_interval=50, n_increments=5):
     # Dense stage in last 25% (symmetric to incremental's startup_ratio=0.25)
     dense_start = int(max_steps * 0.75)
 
@@ -64,6 +62,3 @@ def revIncremental(step, max_steps, min_interval=1, max_interval=50, n_increment
         else:
             return False, increment_size
 
-
-def exponential():
-    pass

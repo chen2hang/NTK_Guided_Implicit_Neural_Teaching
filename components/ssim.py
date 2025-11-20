@@ -1,14 +1,3 @@
-'''SSIM in PyTorch.
-
-The source code is adopted from:
-https://github.com/Po-Hsun-Su/pytorch-ssim
-
-
-Reference:
-[1] Wang Z, Bovik A C, Sheikh H R, et al.
-    Image quality assessment: from error visibility to structural similarity. IEEE transactions on image processing
-'''
-
 import torch
 import torch.nn.functional as F
 from torch.autograd import Variable

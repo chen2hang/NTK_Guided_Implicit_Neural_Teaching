@@ -23,18 +23,18 @@ class NINTSampler(BaseSampler):
 
         # Get all NINT parameters from the consolidated nint config section
         nint_config = configs.nint
-        scheduler_type = nint_config.get('scheduler_type', 'step')
+        batch_size_scheduler = nint_config.get('batch_size_scheduler', 'step')
         mt_ratio = nint_config.get('mt_ratio', 0.2)
         top_k = nint_config.get('top_k', True)
-        nmt_profile_strategy = nint_config.get('nmt_profile_strategy', 'dense')
+        sample_interval = nint_config.get('sample_interval', 'dense')
 
         # Initialize NINT
         self.nint = NINT(
             model,
             configs.TRAIN_CONFIGS.iterations,
             data_shape,
-            scheduler_type,          # Now from nint config
-            nmt_profile_strategy,    # Now from nint config
+            batch_size_scheduler,    # Now from nint config
+            sample_interval,         # Now from nint config
             mt_ratio,                # Now from nint config
             top_k,                   # Now from nint config
             save_samples_path=None,

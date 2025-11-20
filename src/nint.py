@@ -15,21 +15,16 @@ class NINT:
     """
     Wrapper class for the NINT (NTK-Guided Implicit Neural Teaching) algorithm.
     
-    NINT uses NTK-weighted importance scores to guide adaptive sampling during neural 
-    network training. It combines:
-    - Residual-based importance (high loss = high importance)
-    - NTK-weighted importance (parameter sensitivity)
-    - Random sampling (exploration)
-    in a hierarchical sampling framework.
+    NINT uses NTK-weighted importance scores to guide adaptive sampling during neural network training.
 
     Args:
         model (torch.nn.Module): The model to be trained.
         iters (int): The number of iterations to train the model.
         data_shape (Union[Tuple[int], List[int]]): The shape of the input data.
-        scheduler (str, optional): The type of scheduler to use. Defaults to "step".
-            Types: "step", "linear", "cosine", "reverse-cosine", "constant"
-        strategy (str, optional): The type of strategy to use. Defaults to "dense".
-            Types: "incremental", "reverse-incremental", "exponential", "dense", "void"
+        batch_size_scheduler (str, optional): The type of scheduler to use. Defaults to "step".
+            Types: "step", "linear", "constant"
+        sample_interval (str, optional): The type of strategy to use. Defaults to "dense".
+            Types: "incremental", "decremental", "dense", "dense2", "void"
         starting_ratio (float, optional): The starting ratio for the NINT algorithm. Defaults to 0.2.
         top_k (bool, optional): Whether to use top-k sampling. Defaults to True.
         save_samples_path (Path, optional): The path to save the samples. Defaults to Path("logs/sampling").
@@ -37,18 +32,13 @@ class NINT:
         save_name (str, optional): The name to save the samples and losses. Defaults to None.
         save_interval (int, optional): The interval to save the samples and losses. Defaults to 1000.
 
-    Key Features:
-        - NTK-weighted importance scoring using efficient VJP/JVP operations
-        - Hierarchical sampling combining NTK, residual, and random components
-        - Adaptive NTK computation that decays over training
-        - Efficient gradient caching for multi-GPU support
     """
     def __init__(self,
                  model: torch.nn.Module,
                  iters: int,
                  data_shape: Union[Tuple[int], List[int]],
-                 scheduler: str="step",
-                 strategy: str="dense",
+                 batch_size_scheduler: str="step",
+                 sample_interval: str="dense",
                  starting_ratio: float=0.2,
                  top_k: bool=True,
                  save_samples_path: Path=Path("logs/sampling"),
@@ -57,8 +47,8 @@ class NINT:
                  save_interval: int=1000):
         
         self.model = model
-        self.scheduler = mt_scheduler_factory(scheduler)
-        self.strategy = strategy_factory(strategy)
+        self.scheduler = mt_scheduler_factory(batch_size_scheduler)
+        self.strategy = strategy_factory(sample_interval)
         
         self.iters = iters
         self.starting_ratio = starting_ratio
