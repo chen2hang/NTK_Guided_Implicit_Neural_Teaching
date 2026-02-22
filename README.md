@@ -1,7 +1,7 @@
 # [CVPR '26] NINT: NTK-Guided Implicit Neural Teaching
 
 This is the official implementation of [**[NTK-Guided Implicit Neural Teaching]**](https://arxiv.org/pdf/2511.15487) \
-[Chen Zhang*](https://scholar.google.com/citations?user=7CkE3C4AAAAJ&hl=en), [Wei Zuo*](https://scholar.google.com/citations?user=AonK3NEAAAAJ&hl=en), Bingyang Cheng, Yikun Wang, Wei-Bin Kou,
+[Chen Zhang*](https://scholar.google.com/citations?user=7CkE3C4AAAAJ&hl=en), [Wei Zuo*](https://scholar.google.com/citations?user=AonK3NEAAAAJ&hl=en), [Bingyang Cheng](https://scholar.google.com/citations?user=rf646k8AAAAJ&hl=en&oi=sra), Yikun Wang, Wei-Bin Kou,
 [Yik-Chung Wu](https://www.eee.hku.hk/~ycwu/), [Ngai Wong](https://www.eee.hku.hk/~nwong/)
 
 **[20-Feb-2026]** Our work is accepted by ***CVPR 2026***  🎉
