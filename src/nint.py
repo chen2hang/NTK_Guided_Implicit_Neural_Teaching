@@ -71,7 +71,7 @@ class NINT:
 
         self.recal_NTK = True
         self.use_counter = 1
-        # best: ite 10, NTK 0.3, random 0.7
+
         self.NTK_last_ite = 10
         self.NTK_portion_init = 0.3
 
@@ -133,10 +133,9 @@ class NINT:
             # compute NTK-weighted importance scores per sample/pixel
             residual = (self.preds - y)
 
-            # NINT: hierarchical sampling with NTK weighting
             importance = None
             if self.recal_NTK:
-                self.NTK_portion = self.NTK_portion_init * math.exp(- 2.0 * self.use_counter // self.NTK_last_ite)
+                self.NTK_portion = self.NTK_portion_init * math.exp(- 1.0 * self.use_counter // self.NTK_last_ite)
                 if self.NTK_portion >= 1e-3:
                     importance = self._ntk_weighted_scores_pixelwise(x, residual)
                 else:
