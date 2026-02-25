@@ -78,7 +78,7 @@ TRAIN_CONFIGS:
 
 ## Related works
 Related works for developing a deeper understanding of NINT are: <br>
-<p class="indented">[ICLR 2026] <a href="https://chen2hang.github.io/_publications/nonparametric_teaching_of_attention_learners/ICLR_2026_Paper.pdf">Nonparametric Teaching of Attention Learners</a>,</p>
+<p class="indented">[ICLR 2026] <a href="http://arxiv.org/pdf/2602.20461">Nonparametric Teaching of Attention Learners</a>,</p>
 <p class="indented">[ICML 2025 Spotlight] <a href="http://arxiv.org/pdf/2505.14170">Nonparametric Teaching for Graph Property Learners</a>,</p>
 <p class="indented">[ICML 2024] <a href="https://arxiv.org/pdf/2405.10531">Nonparametric Teaching of Implicit Neural Representations</a>,</p>
 <p class="indented">[NeurIPS 2023] <a href="https://arxiv.org/pdf/2311.10318">Nonparametric Teaching for Multiple Learners</a>,</p>
